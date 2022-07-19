@@ -78,3 +78,37 @@ const countCars = (arr: User[]): number => {
 };
 
 countCars(users);
+
+//// 3
+
+function educatedPersons(arr: User[]): User[] {
+  const newArr = arr.filter((el) => el.hasEducation === true);
+
+  return newArr;
+}
+
+/// 4
+
+function animalPersons(arr: User[]): User[] {
+  const newArr = arr.filter((el) => el.animals);
+
+  return newArr;
+}
+
+/// 5
+
+function cars(arr: User[]): string {
+  let rezult = "";
+
+  arr.forEach((element) => {
+    if (element.cars) {
+      element.cars.forEach((el) => {
+        rezult += `${el}, `;
+      });
+    } else {
+      null;
+    }
+  });
+
+  return rezult;
+}
