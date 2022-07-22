@@ -3,6 +3,11 @@
   src: url(../../fonts/Raleway/static/Raleway-Bold.ttf);
 }
 
+@font-face {
+  font-family: Raleway-Regular;
+  src: url(../../fonts/Raleway/static/Raleway-Regular.ttf);
+}
+
 .mainTitle {
   font-family: Raleway-Bold;
   color: rgba(69, 69, 251, 0.811);
