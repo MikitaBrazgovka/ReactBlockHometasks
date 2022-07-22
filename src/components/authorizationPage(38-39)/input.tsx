@@ -108,6 +108,63 @@ export function LoginPage() {
       />
 
       <Btn text="Login" />
+
+      <p style={{ fontFamily: "Raleway-Regular" }}>
+        Forgot your password? <a href="#">Reset password</a>
+      </p>
+    </Container>
+  );
+}
+
+/// страница регистрации:
+export function RegistrationPage() {
+  return (
+    <Container>
+      <div
+        style={{
+          display: "flex",
+          gap: "40px",
+          marginBottom: "50px",
+          alignItems: "center",
+        }}
+      >
+        <MainTitle content="Login" />{" "}
+        <div
+          style={{
+            height: "30px",
+            width: "2px",
+            backgroundColor: "rgb(0, 119, 255)",
+          }}
+        ></div>
+        <MainTitle content="Registration" />
+      </div>
+
+      <Input
+        label="Email:"
+        name="Email"
+        type="email"
+        placeholder="enter your email"
+      />
+
+      <Input
+        label="Password:"
+        name="Password"
+        type="password"
+        placeholder="enter your password"
+      />
+
+      <Input
+        label="Confirm Password:"
+        name="Password"
+        type="password"
+        placeholder="confirm your password"
+      />
+
+      <Btn text="Register" />
+
+      <p style={{ fontFamily: "Raleway-Regular" }}>
+        Have account already? <a href="#">Try to Login</a>
+      </p>
     </Container>
   );
 }
