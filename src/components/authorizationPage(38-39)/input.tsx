@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import "../mainTitle(37-1)/mainTitleStyles.css";
 import { MainTitle } from "../mainTitle(37-1)/mainTitle";
@@ -28,7 +28,6 @@ export const Button = styled.button`
   border-radius: 20px;
   margin-top: 10px;
   font-size: 16px;
-  border: solid 1px rgb(0, 119, 255);
   background-color: rgb(0, 119, 255);
   font-family: Raleway-Regular;
   color: rgb(225, 227, 230);
@@ -38,6 +37,13 @@ export const Button = styled.button`
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const Title = styled.h1<{ isActive: boolean }>`
+  font-family: Raleway-Bold;
+  cursor: pointer;
+  // color: grey;
+  color: ${({ isActive }) => (isActive ? "rgb(0, 119, 255)" : "grey")};
 `;
 
 /// компонент с инпутом:
@@ -66,33 +72,56 @@ export function Input(props: any) {
 /// компонент с кнопкой
 
 export function Btn(props: any) {
-  return <Button>{props.text}</Button>;
+  const [stateBtn, setState] = useState(props.boolean);
+
+  return <Button disabled={stateBtn}>{props.text}</Button>;
+}
+
+/// компонент с кнопками переключения Логин/Регистрация
+
+export function LoginRegistrationButtons({
+  setIsLogin,
+  isLogin,
+}: {
+  isLogin: boolean;
+  setIsLogin: (val: boolean) => void;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "40px",
+        marginBottom: "50px",
+        alignItems: "center",
+      }}
+    >
+      <Title
+        onClick={() => {
+          setIsLogin(true);
+        }}
+        isActive={isLogin}
+      >
+        Login
+      </Title>
+      <div
+        style={{
+          height: "30px",
+          width: "2px",
+          backgroundColor: "rgb(0, 119, 255)",
+        }}
+      ></div>
+      <Title onClick={() => setIsLogin(false)} isActive={!isLogin}>
+        Registration
+      </Title>
+    </div>
+  );
 }
 
 /// страница логина:
 
-export function LoginPage() {
+export function Login() {
   return (
     <Container>
-      <div
-        style={{
-          display: "flex",
-          gap: "40px",
-          marginBottom: "50px",
-          alignItems: "center",
-        }}
-      >
-        <MainTitle content="Login" />{" "}
-        <div
-          style={{
-            height: "30px",
-            width: "2px",
-            backgroundColor: "rgb(0, 119, 255)",
-          }}
-        ></div>
-        <MainTitle content="Registration" />
-      </div>
-
       <Input
         label="Email:"
         name="Email"
@@ -116,55 +145,49 @@ export function LoginPage() {
   );
 }
 
-/// страница регистрации:
-export function RegistrationPage() {
+export function Registration() {
   return (
     <Container>
-      <div
-        style={{
-          display: "flex",
-          gap: "40px",
-          marginBottom: "50px",
-          alignItems: "center",
-        }}
-      >
-        <MainTitle content="Login" />{" "}
-        <div
-          style={{
-            height: "30px",
-            width: "2px",
-            backgroundColor: "rgb(0, 119, 255)",
-          }}
-        ></div>
-        <MainTitle content="Registration" />
-      </div>
-
       <Input
         label="Email:"
         name="Email"
         type="email"
         placeholder="enter your email"
       />
-
       <Input
         label="Password:"
         name="Password"
         type="password"
         placeholder="enter your password"
       />
-
       <Input
         label="Confirm Password:"
-        name="Password"
+        name="Confirm Password"
         type="password"
         placeholder="confirm your password"
       />
 
-      <Btn text="Register" />
+      <Btn text="Register" boolean={Boolean(true)} />
 
       <p style={{ fontFamily: "Raleway-Regular" }}>
         Have account already? <a href="#">Try to Login</a>
       </p>
     </Container>
   );
+}
+
+/// страница регистрации:
+export function RegistrationPage() {
+  const [isLogin, setIsLogin] = useState(true);
+
+  return (
+    <Container>
+      <LoginRegistrationButtons isLogin={isLogin} setIsLogin={setIsLogin} />
+      {isLogin ? <Login /> : <Registration />}
+    </Container>
+  );
+}
+
+export function RenderRegistrationPage() {
+  return <RegistrationPage />;
 }

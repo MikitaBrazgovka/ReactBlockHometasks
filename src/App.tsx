@@ -5,8 +5,8 @@ import { HeaderLine } from "./components/header(37-2)/header";
 import { OpenedHeader } from "./components/header(37-3)/headerOpened";
 import { Input } from "./components/authorizationPage(38-39)/input";
 import { Btn } from "./components/authorizationPage(38-39)/input";
-import { LoginPage } from "./components/authorizationPage(38-39)/input";
-import { RegistrationPage } from "./components/authorizationPage(38-39)/input";
+
+import { RenderRegistrationPage } from "./components/authorizationPage(38-39)/input";
 
 function App() {
   return (
@@ -22,9 +22,9 @@ function App() {
         text4="Log out"
       /> */}
 
-      <LoginPage />
+      {/* <LoginPage /> */}
 
-      {/* <RegistrationPage /> */}
+      <RenderRegistrationPage />
     </div>
   );
 }
