@@ -1,12 +1,5 @@
-header {
-  /* display: flex; */
-  background-color: aquamarine;
-  min-height: 100px;
-  align-items: center;
-  width: 100%;
-}
 .container {
-  min-height: 100px;
+  min-height: 80px;
   margin: 0 16px;
   padding: 0 5px;
   display: flex;

@@ -42,7 +42,7 @@ export const InputContainer = styled.div`
 const Title = styled.h1<{ isActive: boolean }>`
   font-family: Raleway-Bold;
   cursor: pointer;
-  // color: grey;
+  color: grey;
   color: ${({ isActive }) => (isActive ? "rgb(0, 119, 255)" : "grey")};
 `;
 
@@ -63,18 +63,20 @@ export function Input(props: any) {
           name={props.name}
           type={props.type}
           placeholder={props.placeholder}
+          value={props.value}
+          onChange={props.onChange}
         />
       </label>
     </InputContainer>
   );
 }
 
-/// компонент с кнопкой
+/// компонент с кнопкой:
 
 export function Btn(props: any) {
-  const [stateBtn, setState] = useState(props.boolean);
+  // const [stateBtn, setstateBtn] = useState(true);
 
-  return <Button disabled={stateBtn}>{props.text}</Button>;
+  return <Button disabled={props.disabled}>{props.text}</Button>;
 }
 
 /// компонент с кнопками переключения Логин/Регистрация
@@ -120,6 +122,9 @@ export function LoginRegistrationButtons({
 /// страница логина:
 
 export function Login() {
+  const [emailInputState, setEmailInputState] = useState("");
+  const [passwordInputState, setpasswordInputState] = useState("");
+
   return (
     <Container>
       <Input
@@ -127,17 +132,24 @@ export function Login() {
         name="Email"
         type="email"
         placeholder="enter your email"
+        value={emailInputState}
+        onChange={(event: any) => setEmailInputState(event.target.value)}
       />
-
       <Input
         label="Password:"
         name="Password"
         type="password"
         placeholder="enter your password"
+        value={passwordInputState}
+        onChange={(event: any) => setpasswordInputState(event.target.value)}
       />
 
-      <Btn text="Login" />
-
+      <Btn
+        text="Login"
+        disabled={
+          emailInputState != "" && passwordInputState != "" ? false : true
+        }
+      />
       <p style={{ fontFamily: "Raleway-Regular" }}>
         Forgot your password? <a href="#">Reset password</a>
       </p>
@@ -145,7 +157,13 @@ export function Login() {
   );
 }
 
+/// компонент с регистрацией:
+
 export function Registration() {
+  const [emailInputState, setEmailInputState] = useState("");
+  const [passwordInputState, setPasswordInputState] = useState("");
+  const [checkPasswordInputState, setCheckPasswordInputState] = useState("");
+
   return (
     <Container>
       <Input
@@ -153,21 +171,39 @@ export function Registration() {
         name="Email"
         type="email"
         placeholder="enter your email"
+        value={emailInputState}
+        onChange={(event: any) => setEmailInputState(event.target.value)}
       />
       <Input
         label="Password:"
         name="Password"
         type="password"
         placeholder="enter your password"
+        value={passwordInputState}
+        onChange={(event: any) => setPasswordInputState(event.target.value)}
       />
       <Input
         label="Confirm Password:"
         name="Confirm Password"
         type="password"
         placeholder="confirm your password"
+        value={checkPasswordInputState}
+        onChange={(event: any) =>
+          setCheckPasswordInputState(event.target.value)
+        }
       />
 
-      <Btn text="Register" boolean={Boolean(true)} />
+      <Btn
+        text="Register"
+        disabled={
+          emailInputState != "" &&
+          passwordInputState != "" &&
+          checkPasswordInputState != "" &&
+          passwordInputState == checkPasswordInputState
+            ? false
+            : true
+        }
+      />
 
       <p style={{ fontFamily: "Raleway-Regular" }}>
         Have account already? <a href="#">Try to Login</a>
@@ -177,6 +213,7 @@ export function Registration() {
 }
 
 /// страница регистрации:
+
 export function RegistrationPage() {
   const [isLogin, setIsLogin] = useState(true);
 

@@ -8,7 +8,7 @@ const Header = styled.header`
   height: 200px;
 `;
 
-const CloserWrapper = styled.div`
+export const CloserWrapper = styled.div`
   display: flex;
   width: 40px;
   height: 40px;
