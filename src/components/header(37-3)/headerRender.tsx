@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { HeaderClosed } from "../header(37-2)/header";
-import { HeaderLine } from "../header(37-2)/header";
+import { HeaderClose } from "../header(37-2)/header";
 import { OpenedHeader } from "../header(37-3)/headerOpened";
 // import { HeaderOpened } from "../header(37-3)/headerOpened";
 import { ReactComponent as BurgerBtn } from "../header(37-2)/burger.svg";
 import { ReactComponent as CloserBtn } from "../header(37-3)/close_btn.svg";
 
-import { CloserWrapper } from "../header(37-3)/headerOpened";
+import { ButtonWrapper } from "../header(37-3)/headerOpened";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -19,23 +19,32 @@ const Container = styled.div`
 `;
 
 export function RenderHeader() {
+  const [stateBtn, setstateBtn] = useState(true);
+
   return (
-    <Container>
-      <HeaderClosed>
-        <CloserWrapper>
+    <HeaderClosed>
+      <Container>
+        <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
           <BurgerBtn style={{ cursor: "pointer" }} />
-          <CloserBtn style={{ cursor: "pointer" }} />
-        </CloserWrapper>
+        </ButtonWrapper>
 
-        <HeaderLine />
+        <ButtonWrapper onClick={() => setstateBtn(true)} isOpened={!stateBtn}>
+          <CloserBtn
+            style={{ cursor: "pointer", width: "35px", height: "35px" }}
+          />
+        </ButtonWrapper>
 
-        <OpenedHeader
-          text1="All posts"
-          text2="My posts"
-          text3="Add posts"
-          text4="Log out"
-        />
-      </HeaderClosed>
-    </Container>
+        {stateBtn ? (
+          <HeaderClose />
+        ) : (
+          <OpenedHeader
+            text1="All posts"
+            text2="My posts"
+            text3="Add posts"
+            text4="Log out"
+          />
+        )}
+      </Container>
+    </HeaderClosed>
   );
 }

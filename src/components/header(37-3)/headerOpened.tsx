@@ -1,5 +1,4 @@
 import * as React from "react";
-import { ReactComponent as CloserBtn } from "./close_btn.svg";
 
 import styled from "styled-components";
 
@@ -8,11 +7,12 @@ const Header = styled.header`
   height: 200px;
 `;
 
-export const CloserWrapper = styled.div`
-  display: flex;
+export const ButtonWrapper = styled.div<{ isOpened: boolean }>`
   width: 40px;
   height: 40px;
   align-items: center;
+  gap: 10px;
+  display: ${({ isOpened }) => (isOpened ? "block" : "none")};
 `;
 
 const LI = styled.li`
@@ -23,21 +23,13 @@ const LI = styled.li`
 
 export function OpenedHeader(props: any) {
   return (
-    <Header>
-      <div className="container">
-        <CloserWrapper>
-          <CloserBtn />
-        </CloserWrapper>
-
-        <div className="listContainer">
-          <ul>
-            <LI>{props.text1}</LI>
-            <LI>{props.text2}</LI>
-            <LI>{props.text3}</LI>
-            <LI>{props.text4}</LI>
-          </ul>
-        </div>
-      </div>
-    </Header>
+    <div className="listContainer">
+      <ul style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
+        <LI>{props.text1}</LI>
+        <LI>{props.text2}</LI>
+        <LI>{props.text3}</LI>
+        <LI>{props.text4}</LI>
+      </ul>
+    </div>
   );
 }
