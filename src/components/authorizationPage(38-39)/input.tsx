@@ -150,7 +150,7 @@ export function Login() {
           emailInputState != "" && passwordInputState != "" ? false : true
         }
       />
-      <p style={{ fontFamily: "Raleway-Regular" }}>
+      <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Forgot your password? <a href="#">Reset password</a>
       </p>
     </Container>
@@ -205,7 +205,7 @@ export function Registration() {
         }
       />
 
-      <p style={{ fontFamily: "Raleway-Regular" }}>
+      <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Have account already? <a href="#">Try to Login</a>
       </p>
     </Container>
