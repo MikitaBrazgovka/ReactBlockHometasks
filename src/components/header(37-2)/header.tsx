@@ -5,7 +5,7 @@ import "./headerStyles.css";
 import styled from "styled-components";
 
 export const HeaderClosed = styled.header`
-  background-color: rgb(0, 119, 255);
+  background-color: rgb(49, 49, 49);
   min-height: 80px;
   align-items: center;
   width: 100%;

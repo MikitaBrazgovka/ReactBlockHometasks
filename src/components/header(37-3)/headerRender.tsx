@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { HeaderClosed } from "../header(37-2)/header";
 import { HeaderClose } from "../header(37-2)/header";
 import { OpenedHeader } from "../header(37-3)/headerOpened";
-// import { HeaderOpened } from "../header(37-3)/headerOpened";
 import { ReactComponent as BurgerBtn } from "../header(37-2)/burger.svg";
-import { ReactComponent as CloserBtn } from "../header(37-3)/close_btn.svg";
+import { ReactComponent as CloserBtn } from "../header(37-3)/icons/close_btn.svg";
 
 import { ButtonWrapper } from "../header(37-3)/headerOpened";
 import styled from "styled-components";
@@ -38,10 +37,10 @@ export function RenderHeader() {
           <HeaderClose />
         ) : (
           <OpenedHeader
-            text1="All posts"
-            text2="My posts"
-            text3="Add posts"
-            text4="Log out"
+            text1="Home"
+            text2="Trends"
+            text3="Favorites"
+            text4="Settings"
           />
         )}
       </Container>

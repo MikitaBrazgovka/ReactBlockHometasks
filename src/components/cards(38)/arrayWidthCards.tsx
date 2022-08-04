@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Post } from "./oneCard";
 
 export const Cards = [
   {
@@ -195,7 +196,7 @@ export const Cards = [
     Response: "True",
   },
   {
-    Title: "Avengers: Infinity War",
+    Title: 6,
     Year: "2018",
     Rated: "PG-13",
     Released: "27 Apr 2018",
@@ -227,3 +228,64 @@ export const Cards = [
     Response: "True",
   },
 ];
+
+type Card = typeof Cards[number];
+
+export function MyComponent() {
+  const [error, setError] = useState<null | Error>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cards, setCards] = useState<Card[]>([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch("http://www.omdbapi.com/?i=tt1396484&apikey=122eac9b")
+      .then((responce) => responce.json())
+      .then(
+        (data: Card) => {
+          setCards([data]);
+
+          setIsLoading(false);
+        },
+        (error: Error) => {
+          setIsLoading(false);
+          setError(error);
+        }
+      );
+  }, []);
+
+  if (error) {
+    return <div>Ошибка: {error.message}</div>;
+  }
+
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
+
+  return (
+    <>
+      {cards.map((card) => (
+        <Post
+          key={card.imdbID}
+          imdbRating={card.imdbRating}
+          postTitle={card.Title}
+          postGenres={card.Genre}
+          poster={card.Poster}
+        />
+      ))}
+    </>
+  );
+}
+
+// export function Post({ imdbRating,postTitle, postGenres, poster }: Card) {
+//   return (
+//     <CardWrapper>
+//       <PosterWrapper style={{ backgroundImage: `url(${poster})` }}>
+//         <ImdbRatingWrapper isHightRating={imdbRating > 6 ? true : false}>
+//           {imdbRating}
+//         </ImdbRatingWrapper>
+//       </PosterWrapper>
+//       <PostTitle>{postTitle}</PostTitle>
+//       <PostGenres>{postGenres}</PostGenres>
+//     </CardWrapper>
+//   );
+// }

@@ -7,6 +7,10 @@ const CardWrapper = styled.div`
   width: 266px;
   height: 400px;
   margin: 40px 0;
+  :hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
   cursor: pointer;
 `;
 
@@ -47,7 +51,7 @@ const PostGenres = styled.p`
 
 export function Post(props: any) {
   return (
-    <CardWrapper className="oneCard">
+    <CardWrapper>
       <PosterWrapper style={{ backgroundImage: `url(${props.poster})` }}>
         <ImdbRatingWrapper isHightRating={props.imdbRating > 6 ? true : false}>
           {props.imdbRating}
