@@ -6,6 +6,7 @@ import HomeIcon from "./icons/home.png";
 import TrendsIcon from "./icons/trends_icon.png";
 import FavoriteIcon from "./icons/favorites_icon.png";
 import SettingIcon from "./icons/settings_icon.png";
+import { Link } from "react-router-dom";
 
 const Header = styled.header`
   background-color: yellow;
@@ -42,25 +43,34 @@ export function OpenedHeader(props: any) {
   return (
     <div className="listContainer">
       <ul style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
-        <LI>
-          <div>{props.text1}</div>
-          <div>
-            <img src={HomeIcon} alt="" />
-          </div>
-        </LI>
-        <LI>
-          <div>{props.text2} </div>
-          <div>
-            {" "}
-            <img src={TrendsIcon} alt="" />
-          </div>
-        </LI>
-        <LI>
-          <div>{props.text3}</div>
-          <div>
-            <img src={FavoriteIcon} alt="" />
-          </div>
-        </LI>
+        <Link to="/">
+          <LI>
+            <div>{props.text1}</div>
+            <div>
+              <img src={HomeIcon} alt="" />
+            </div>
+          </LI>
+        </Link>
+
+        <Link to="/cards">
+          <LI>
+            <div>{props.text2} </div>
+            <div>
+              {" "}
+              <img src={TrendsIcon} alt="" />
+            </div>
+          </LI>
+        </Link>
+
+        <Link to="/login">
+          <LI>
+            <div>{props.text3}</div>
+            <div>
+              <img src={FavoriteIcon} alt="" />
+            </div>
+          </LI>
+        </Link>
+
         <LI>
           <div>{props.text4}</div>
           <div>

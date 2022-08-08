@@ -4,6 +4,7 @@ import { HeaderClose } from "../header(37-2)/header";
 import { OpenedHeader } from "../header(37-3)/headerOpened";
 import { ReactComponent as BurgerBtn } from "../header(37-2)/burger.svg";
 import { ReactComponent as CloserBtn } from "../header(37-3)/icons/close_btn.svg";
+import { ReactComponent as MainLogo } from "../../logo.svg";
 
 import { ButtonWrapper } from "../header(37-3)/headerOpened";
 import styled from "styled-components";
@@ -23,6 +24,7 @@ export function RenderHeader() {
   return (
     <HeaderClosed>
       <Container>
+        <MainLogo />
         <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
           <BurgerBtn style={{ cursor: "pointer" }} />
         </ButtonWrapper>
