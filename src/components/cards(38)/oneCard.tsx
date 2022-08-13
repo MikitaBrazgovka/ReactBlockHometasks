@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import "../../fonts/Exo_2/fontStyles.css";
-import "./cardStyles.css";
 
 const CardWrapper = styled.div`
   width: 266px;
@@ -14,7 +13,7 @@ const CardWrapper = styled.div`
   cursor: pointer;
 `;
 
-const PosterWrapper = styled.div`
+export const PosterWrapper = styled.div`
   width: 260px;
   height: 370px;
   border-radius: 20px;
@@ -43,7 +42,7 @@ const PostTitle = styled.h2`
   font-size: 16px;
   color: #ffffff;
 `;
-const PostGenres = styled.p`
+export const PostGenres = styled.p`
   font-family: Exo2-Regular;
   font-size: 16px;
   color: #ffffff;
@@ -51,7 +50,11 @@ const PostGenres = styled.p`
 
 export function Post(props: any) {
   return (
-    <CardWrapper>
+    <CardWrapper
+      onClick={() => {
+        props.onClick();
+      }}
+    >
       <PosterWrapper style={{ backgroundImage: `url(${props.poster})` }}>
         <ImdbRatingWrapper isHightRating={props.imdbRating > 6 ? true : false}>
           {props.imdbRating}
@@ -59,6 +62,7 @@ export function Post(props: any) {
       </PosterWrapper>
       <PostTitle>{props.postTitle}</PostTitle>
       <PostGenres>{props.postGenres}</PostGenres>
+      <PostGenres>{props.postYear}</PostGenres>
     </CardWrapper>
   );
 }

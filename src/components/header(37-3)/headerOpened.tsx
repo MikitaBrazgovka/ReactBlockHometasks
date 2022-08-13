@@ -30,6 +30,7 @@ const LI = styled.li`
   color: #7b61ff;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100px;
   gap: 10px;
 
