@@ -66,7 +66,7 @@ const RateContainer = styled.div`
   gap: 10px;
 `;
 
-const Rate = styled.div<{ isHightRating: boolean }>`
+const Rate = styled.div<{ imdbRating: number | string }>`
   font-family: Exo2-Bold;
   width: 73px;
   height: 28px;
@@ -75,9 +75,22 @@ const Rate = styled.div<{ isHightRating: boolean }>`
   justify-content: center;
   align-items: center;
   padding: 2px 8px;
-  background: ${({ isHightRating }) => (isHightRating ? "green" : "#323537")};
+
+  background: ${({ imdbRating }) => {
+    if (imdbRating > 8) {
+      return "green";
+    }
+    if (imdbRating > 6) {
+      return "rgb(255, 102, 0)";
+    }
+    return "red";
+  }};
   border-radius: 6px;
   color: #ffffff;
+`;
+
+const RateGrey = styled(Rate)`
+  background: grey;
 `;
 
 const Plot = styled.p`
@@ -95,79 +108,6 @@ const InfoWrapper = styled.div`
   font-family: Exo2-Regular;
   gap: 70px;
 `;
-
-//// страница с одной карточкой:
-
-// export function OneCardPageDescript({ obj }: any) {
-//   obj = OneCardDescription;
-//   return (
-//     <PageWrapper>
-//       <PosterAndBtnWrapper>
-//         <PosterWrapper
-//           style={{
-//             backgroundImage: `url(${obj.Poster})`,
-//           }}
-//         ></PosterWrapper>
-//         <UnderPosterButtons>
-//           <UnderPosterButton>
-//             <img src={BookmarkBtn} alt="bookmark" />
-//           </UnderPosterButton>
-//           <UnderPosterButton>
-//             <img src={ShareBtn} alt="bookmark" />
-//           </UnderPosterButton>
-//         </UnderPosterButtons>
-//       </PosterAndBtnWrapper>
-
-//       <DescriptionWrapper>
-//         <PostGenres style={{ color: "#AFB2B6", margin: "0" }}>
-//           {obj.Genre}
-//         </PostGenres>
-//         <MainTitleMovie>{obj.Title}</MainTitleMovie>
-
-//         <RateContainer>
-//           <Rate isHightRating={obj.imdbRating > 6 ? true : false}>
-//             {obj.imdbRating}
-//           </Rate>
-//           <Rate isHightRating={false}>
-//             <img src={imdbLogo} alt="imdb" />
-//             {obj.imdbRating}
-//           </Rate>
-//           <Rate isHightRating={false}>{obj.Runtime}</Rate>
-//         </RateContainer>
-
-//         <Plot>{obj.Plot}</Plot>
-
-//         <InfoWrapper>
-//           <div
-//             style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-//           >
-//             <div>Year</div>
-//             <div>Released</div>
-//             <div>BoxOffice</div>
-//             <div>Country</div>
-//             <div>Production</div>
-//             <div>Actors</div>
-//             <div>Director</div>
-//             <div>Writers</div>
-//           </div>
-
-//           <div
-//             style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-//           >
-//             <div>{obj.Year}</div>
-//             <div>{obj.Released}</div>
-//             <div>{obj.BoxOffice}</div>
-//             <div>{obj.Country}</div>
-//             <div>{obj.Production}</div>
-//             <div>{obj.Actors}</div>
-//             <div>{obj.Director}</div>
-//             <div>{obj.Writer}</div>
-//           </div>
-//         </InfoWrapper>
-//       </DescriptionWrapper>
-//     </PageWrapper>
-//   );
-// }
 
 interface OneCardType {
   Title: string;
@@ -201,7 +141,7 @@ interface OneCardType {
 export function CardDescriptionPage() {
   const [error, setError] = useState<null | Error>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [card, setCard] = useState<any>({});
+  const [card, setCard] = useState<OneCardType | null>(null);
 
   let params = useParams();
 
@@ -223,13 +163,16 @@ export function CardDescriptionPage() {
         }
       );
   }, []);
-  console.log(card);
+  // console.log(card);
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;
   }
   if (isLoading) {
     return <div>Жди...</div>;
+  }
+  if (!card) {
+    return <div>No data</div>;
   }
 
   return (
@@ -257,14 +200,12 @@ export function CardDescriptionPage() {
         <MainTitleMovie>{card.Title}</MainTitleMovie>
 
         <RateContainer>
-          <Rate isHightRating={card.imdbRating > 6 ? true : false}>
-            {card.imdbRating}
-          </Rate>
-          <Rate isHightRating={false}>
+          <Rate imdbRating={card.imdbRating}>{card.imdbRating}</Rate>
+          <RateGrey imdbRating={card.imdbRating}>
             <img src={imdbLogo} alt="imdb" />
             {card.imdbRating}
-          </Rate>
-          <Rate isHightRating={false}>{card.Runtime}</Rate>
+          </RateGrey>
+          <RateGrey imdbRating={card.imdbRating}>{card.Runtime}</RateGrey>
         </RateContainer>
 
         <Plot>{card.Plot}</Plot>
