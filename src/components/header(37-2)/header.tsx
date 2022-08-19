@@ -20,6 +20,7 @@ export function HeaderClose() {
       <div>
         <h2>Username</h2>
       </div>
+      <div></div>
     </div>
   );
 }

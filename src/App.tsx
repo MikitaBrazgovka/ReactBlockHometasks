@@ -5,6 +5,7 @@ import { RenderRegistrationPage } from "./components/authorizationPage(38-39)/in
 import { Posts } from "./components/cards(38)/cardsPage";
 import { CardDescriptionPage } from "./components/cards(38)/one_card_page/one_card_page";
 import { ThemeProvider } from "./components/providers/themeProvider";
+import { Layout } from "./layout";
 
 function App() {
   return (
@@ -12,25 +13,14 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <RenderHeader />
-
-          <div
-            className="contentWrapper"
-            style={{
-              backgroundColor: "#000000",
-              width: "100%",
-              height: "100%",
-              minHeight: "1200px",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+          <Layout>
             <Routes>
               <Route path="/" element={<Navigate to="/cards" replace />} />
               <Route path="/cards" element={<Posts />} />
               <Route path="/cards/:cardId" element={<CardDescriptionPage />} />
               <Route path="login" element={<RenderRegistrationPage />} />
             </Routes>
-          </div>
+          </Layout>
         </div>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,21 +1,31 @@
 import { type } from "@testing-library/user-event/dist/type";
 import React, { ReactNode, useState, useContext, Dispatch } from "react";
+import { ReactComponent as LightThemeButton } from "./light.svg";
+import { ReactComponent as DarkThemeButton } from "./moon.svg";
 
-enum ThemeVariants {
-  Dark = "dark",
-  Light = "light",
-}
+const ThemeVariants = {
+  Dark: {
+    backgroundColor: "black",
+    textColor: "white",
+    headerBackground: "rgb(72, 109, 105)",
+  },
+  Light: {
+    backgroundColor: "white",
+    textColor: "black",
+    headerBackground: "rgb(194, 70, 101)",
+  },
+};
 
-/// типизация контекста темы:
-interface ThemeType {
-  themeVariant: ThemeVariants.Dark | ThemeVariants.Light;
-  setThemeVariant: (
-    themeVariant: ThemeVariants.Dark | ThemeVariants.Light
-  ) => void;
-}
+/// типизация контекста темы (не работает ....):
+// interface ThemeType {
+//   themeVariant: ThemeVariants.Dark | ThemeVariants.Light;
+//   setThemeVariant: (
+//     themeVariant: ThemeVariants.Dark | ThemeVariants.Light
+//   ) => void;
+// }
 
 /// создание контекста темы:
-const ThemeContext = React.createContext<ThemeType | null>(null);
+export const ThemeContext = React.createContext<any | null>(ThemeVariants.Dark);
 
 /// создание провайдера темы:
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
@@ -27,3 +37,35 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     </ThemeContext.Provider>
   );
 };
+
+export function ThemeButton() {
+  const context = useContext(ThemeContext);
+
+  if (!context) return null;
+
+  const { themeVariant, setThemeVariant } = context;
+
+  return (
+    <button
+      style={{
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        display: "flex",
+      }}
+      onClick={() => {
+        setThemeVariant(
+          themeVariant === ThemeVariants.Dark
+            ? ThemeVariants.Light
+            : ThemeVariants.Dark
+        );
+      }}
+    >
+      {themeVariant === ThemeVariants.Dark ? (
+        <DarkThemeButton />
+      ) : (
+        <LightThemeButton />
+      )}
+    </button>
+  );
+}

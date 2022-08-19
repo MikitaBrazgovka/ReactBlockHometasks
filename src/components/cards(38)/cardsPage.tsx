@@ -19,8 +19,6 @@ const PostsContainer = styled.div`
 export function Posts() {
   return (
     <PostsContainer>
-      {/* <CardDescriptionPage /> */}
-
       <CardsArray />
     </PostsContainer>
   );

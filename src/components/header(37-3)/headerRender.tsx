@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { HeaderClosed } from "../header(37-2)/header";
 import { HeaderClose } from "../header(37-2)/header";
 import { OpenedHeader } from "../header(37-3)/headerOpened";
 import { ReactComponent as BurgerBtn } from "../header(37-2)/burger.svg";
 import { ReactComponent as CloserBtn } from "../header(37-3)/icons/close_btn.svg";
 import { ReactComponent as MainLogo } from "../../logo.svg";
+import { ThemeContext } from "../providers/themeProvider";
 
 import { ButtonWrapper } from "../header(37-3)/headerOpened";
 import styled from "styled-components";
+
+import { ThemeButton } from "../providers/themeProvider";
 
 const Container = styled.div`
   min-height: 80px;
@@ -20,10 +23,16 @@ const Container = styled.div`
 
 export function RenderHeader() {
   const [stateBtn, setstateBtn] = useState(true);
+  const context = useContext(ThemeContext);
+
+  if (!context) return null;
 
   return (
-    <HeaderClosed>
+    <HeaderClosed
+      style={{ backgroundColor: `${context.themeVariant["headerBackground"]}` }}
+    >
       <Container>
+        <ThemeButton />
         <MainLogo />
         <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
           <BurgerBtn style={{ cursor: "pointer" }} />

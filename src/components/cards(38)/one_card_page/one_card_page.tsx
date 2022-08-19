@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { PosterWrapper } from "../oneCard";
 import BookmarkBtn from "./bookmark.png";
@@ -7,6 +7,7 @@ import imdbLogo from "./imdbLogo.png";
 import { PostGenres } from "../oneCard";
 import "../../../fonts/Exo_2/fontStyles.css";
 import { useParams } from "react-router-dom";
+import { ThemeContext } from "../../providers/themeProvider";
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -145,6 +146,8 @@ export function CardDescriptionPage() {
 
   let params = useParams();
 
+  const context = useContext(ThemeContext);
+
   useEffect(() => {
     setIsLoading(true);
     fetch(
@@ -194,10 +197,16 @@ export function CardDescriptionPage() {
       </PosterAndBtnWrapper>
 
       <DescriptionWrapper>
-        <PostGenres style={{ color: "#AFB2B6", margin: "0" }}>
+        <PostGenres
+          style={{ color: `${context.themeVariant["textColor"]}`, margin: "0" }}
+        >
           {card.Genre}
         </PostGenres>
-        <MainTitleMovie>{card.Title}</MainTitleMovie>
+        <MainTitleMovie
+          style={{ color: `${context.themeVariant["textColor"]}` }}
+        >
+          {card.Title}
+        </MainTitleMovie>
 
         <RateContainer>
           <Rate imdbRating={card.imdbRating}>{card.imdbRating}</Rate>
@@ -208,7 +217,9 @@ export function CardDescriptionPage() {
           <RateGrey imdbRating={card.imdbRating}>{card.Runtime}</RateGrey>
         </RateContainer>
 
-        <Plot>{card.Plot}</Plot>
+        <Plot style={{ color: `${context.themeVariant["textColor"]}` }}>
+          {card.Plot}
+        </Plot>
 
         <InfoWrapper>
           <div
@@ -218,14 +229,30 @@ export function CardDescriptionPage() {
               gap: "20px",
             }}
           >
-            <div>Year</div>
-            <div>Released</div>
-            <div>BoxOffice</div>
-            <div>Country</div>
-            <div>Production</div>
-            <div>Actors</div>
-            <div>Director</div>
-            <div>Writers</div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Year
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Released
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              BoxOffice
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Country
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Production
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Actors
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Director
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              Writers
+            </div>
           </div>
 
           <div
@@ -235,14 +262,30 @@ export function CardDescriptionPage() {
               gap: "20px",
             }}
           >
-            <div>{card.Year}</div>
-            <div>{card.Released}</div>
-            <div>{card.BoxOffice}</div>
-            <div>{card.Country}</div>
-            <div>{card.Production}</div>
-            <div>{card.Actors}</div>
-            <div>{card.Director}</div>
-            <div>{card.Writer}</div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Year}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Released}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.BoxOffice}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Country}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Production}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Actors}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Director}
+            </div>
+            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+              {card.Writer}
+            </div>
           </div>
         </InfoWrapper>
       </DescriptionWrapper>

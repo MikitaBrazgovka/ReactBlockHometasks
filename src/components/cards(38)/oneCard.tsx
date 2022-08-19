@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import "../../fonts/Exo_2/fontStyles.css";
+import { ThemeContext } from "../providers/themeProvider";
 
 const CardWrapper = styled.div`
   width: 266px;
@@ -49,6 +50,10 @@ export const PostGenres = styled.p`
 `;
 
 export function Post(props: any) {
+  const context = useContext(ThemeContext);
+
+  if (!context) return null;
+
   return (
     <CardWrapper
       onClick={() => {
@@ -60,9 +65,15 @@ export function Post(props: any) {
           {props.imdbRating}
         </ImdbRatingWrapper>
       </PosterWrapper>
-      <PostTitle>{props.postTitle}</PostTitle>
-      <PostGenres>{props.postGenres}</PostGenres>
-      <PostGenres>{props.postYear}</PostGenres>
+      <PostTitle style={{ color: `${context.themeVariant["textColor"]}` }}>
+        {props.postTitle}
+      </PostTitle>
+      <PostGenres style={{ color: `${context.themeVariant["textColor"]}` }}>
+        {props.postGenres}
+      </PostGenres>
+      <PostGenres style={{ color: `${context.themeVariant["textColor"]}` }}>
+        {props.postYear}
+      </PostGenres>
     </CardWrapper>
   );
 }
