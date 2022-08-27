@@ -157,7 +157,7 @@ export function Login() {
   );
 }
 
-/// компонент с регистрацией:
+/// страница регистрации:
 
 export function Registration() {
   const [emailInputState, setEmailInputState] = useState("");

@@ -9,7 +9,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-interface Card {
+export interface Card {
   Poster: string;
   Title: string;
   Type: string;
@@ -53,6 +53,7 @@ export function CardsArray() {
     <>
       {cards.map((card: Card) => (
         <Post
+          imdbID={card.imdbID}
           key={card.imdbID}
           postTitle={card.Title}
           postGenres={card.Type}

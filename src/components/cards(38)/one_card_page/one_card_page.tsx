@@ -110,7 +110,7 @@ const InfoWrapper = styled.div`
   gap: 70px;
 `;
 
-interface OneCardType {
+export interface OneCardType {
   Title: string;
   Year: string;
   Rated: string;
@@ -166,7 +166,6 @@ export function CardDescriptionPage() {
         }
       );
   }, []);
-  // console.log(card);
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;
