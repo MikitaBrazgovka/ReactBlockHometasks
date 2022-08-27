@@ -17,15 +17,18 @@ const ThemeVariants = {
 };
 
 /// типизация контекста темы (не работает ....):
-// interface ThemeType {
-//   themeVariant: ThemeVariants.Dark | ThemeVariants.Light;
-//   setThemeVariant: (
-//     themeVariant: ThemeVariants.Dark | ThemeVariants.Light
-//   ) => void;
-// }
+interface ThemeType {
+  themeVariant: typeof ThemeVariants.Dark | typeof ThemeVariants.Light;
+  setThemeVariant: (
+    themeVariant: typeof ThemeVariants.Dark | typeof ThemeVariants.Light
+  ) => void;
+}
 
 /// создание контекста темы:
-export const ThemeContext = React.createContext<any | null>(ThemeVariants.Dark);
+export const ThemeContext = React.createContext<ThemeType>({
+  themeVariant: ThemeVariants.Dark,
+  setThemeVariant: () => {},
+});
 
 /// создание провайдера темы:
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {

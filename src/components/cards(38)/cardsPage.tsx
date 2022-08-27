@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Card } from "./cardType";
-import { Post } from "./oneCard";
 import { CardsArray } from "./arrayWidthCards";
-// import { OneCardPageDescript } from "./one_card_page/one_card_page";
-
-import { CardDescriptionPage } from "./one_card_page/one_card_page";
 
 const PostsContainer = styled.div`
   max-width: 1490px;

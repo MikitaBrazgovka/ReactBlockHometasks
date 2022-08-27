@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "baseUrl": "scr"
+  },
+  "include": ["scr"]
+}

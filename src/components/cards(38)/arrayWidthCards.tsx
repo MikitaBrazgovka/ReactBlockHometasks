@@ -40,6 +40,7 @@ export function CardsArray() {
       );
   }, []);
   // console.log(cards);
+
   if (error) {
     return <div>Ошибка: {error.message}</div>;
   }

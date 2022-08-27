@@ -49,6 +49,7 @@ export const PostGenres = styled.p`
   color: #ffffff;
 `;
 
+//// одна карточка на общей странице:
 export function Post(props: any) {
   const context = useContext(ThemeContext);
 

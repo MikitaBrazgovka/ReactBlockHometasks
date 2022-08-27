@@ -8,11 +8,6 @@ import FavoriteIcon from "./icons/favorites_icon.png";
 import SettingIcon from "./icons/settings_icon.png";
 import { Link } from "react-router-dom";
 
-const Header = styled.header`
-  background-color: yellow;
-  height: 200px;
-`;
-
 export const ButtonWrapper = styled.div<{ isOpened: boolean }>`
   width: 35px;
   height: 35px;
@@ -44,7 +39,7 @@ export function OpenedHeader(props: any) {
   return (
     <div className="listContainer">
       <ul style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
-        <Link to="/">
+        <Link to="/home">
           <LI>
             <div>{props.text1}</div>
             <div>
@@ -53,7 +48,7 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
 
-        <Link to="/cards">
+        <Link to="/trends">
           <LI>
             <div>{props.text2} </div>
             <div>
@@ -63,7 +58,7 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
 
-        <Link to="/login">
+        <Link to="/favorites">
           <LI>
             <div>{props.text3}</div>
             <div>
@@ -72,12 +67,14 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
 
-        <LI>
-          <div>{props.text4}</div>
-          <div>
-            <img src={SettingIcon} alt="" />
-          </div>
-        </LI>
+        <Link to="/settings">
+          <LI>
+            <div>{props.text4}</div>
+            <div>
+              <img src={SettingIcon} alt="" />
+            </div>
+          </LI>
+        </Link>
       </ul>
     </div>
   );

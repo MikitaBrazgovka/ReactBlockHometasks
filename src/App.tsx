@@ -15,10 +15,10 @@ function App() {
           <RenderHeader />
           <Layout>
             <Routes>
-              <Route path="/" element={<Navigate to="/cards" replace />} />
-              <Route path="/cards" element={<Posts />} />
-              <Route path="/cards/:cardId" element={<CardDescriptionPage />} />
-              <Route path="login" element={<RenderRegistrationPage />} />
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="/home" element={<Posts />} />
+              <Route path="/home/:cardId" element={<CardDescriptionPage />} />
+              <Route path="/login" element={<RenderRegistrationPage />} />
             </Routes>
           </Layout>
         </div>
