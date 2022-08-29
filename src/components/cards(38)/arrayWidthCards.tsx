@@ -30,7 +30,7 @@ export function CardsArray() {
       .then(
         (data: any) => {
           setCards(data.Search);
-          // console.log(data);
+          console.log(data);
           setIsLoading(false);
         },
         (error: Error) => {

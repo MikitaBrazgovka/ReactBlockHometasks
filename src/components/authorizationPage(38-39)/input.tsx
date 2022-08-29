@@ -2,6 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import "../mainTitle(37-1)/mainTitleStyles.css";
 import { MainTitle } from "../mainTitle(37-1)/mainTitle";
+import { useDispatch } from "react-redux"; // для авторизации
+import { setUser } from "./store/slices/userSlice"; // для авторизации
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  User,
+} from "firebase/auth"; // для авторизации
 
 export const Container = styled.div`
   margin: 0 16px;
@@ -46,6 +54,10 @@ const Title = styled.h1<{ isActive: boolean }>`
   color: ${({ isActive }) => (isActive ? "rgb(0, 119, 255)" : "grey")};
 `;
 
+interface IUser extends User {
+  accessToken: string;
+}
+
 /// компонент с инпутом:
 export function Input(props: any) {
   return (
@@ -74,9 +86,11 @@ export function Input(props: any) {
 /// компонент с кнопкой:
 
 export function Btn(props: any) {
-  // const [stateBtn, setstateBtn] = useState(true);
-
-  return <Button disabled={props.disabled}>{props.text}</Button>;
+  return (
+    <Button disabled={props.disabled} type={props.type} onClick={props.onClick}>
+      {props.text}
+    </Button>
+  );
 }
 
 /// компонент с кнопками переключения Логин/Регистрация
@@ -125,31 +139,51 @@ export function Login() {
   const [emailInputState, setEmailInputState] = useState("");
   const [passwordInputState, setpasswordInputState] = useState("");
 
+  const dispatch = useDispatch();
+
+  const handleLogin = (email: string, password: string) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        console.log(user);
+        const { email, uid, accessToken } = user as IUser;
+        dispatch(setUser({ email, id: uid, token: accessToken }));
+      })
+      .catch(console.error);
+  };
+
   return (
     <Container>
-      <Input
-        label="Email:"
-        name="Email"
-        type="email"
-        placeholder="enter your email"
-        value={emailInputState}
-        onChange={(event: any) => setEmailInputState(event.target.value)}
-      />
-      <Input
-        label="Password:"
-        name="Password"
-        type="password"
-        placeholder="enter your password"
-        value={passwordInputState}
-        onChange={(event: any) => setpasswordInputState(event.target.value)}
-      />
-
-      <Btn
-        text="Login"
-        disabled={
-          emailInputState != "" && passwordInputState != "" ? false : true
-        }
-      />
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleLogin(emailInputState, passwordInputState);
+        }}
+      >
+        <Input
+          label="Email:"
+          name="Email"
+          type="email"
+          placeholder="enter your email"
+          value={emailInputState}
+          onChange={(event: any) => setEmailInputState(event.target.value)}
+        />
+        <Input
+          label="Password:"
+          name="Password"
+          type="password"
+          placeholder="enter your password"
+          value={passwordInputState}
+          onChange={(event: any) => setpasswordInputState(event.target.value)}
+        />
+        <Btn
+          text="Login"
+          type="submit"
+          disabled={
+            emailInputState != "" && passwordInputState != "" ? false : true
+          }
+        />
+      </form>
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Forgot your password? <a href="#">Reset password</a>
       </p>
@@ -163,6 +197,20 @@ export function Registration() {
   const [emailInputState, setEmailInputState] = useState("");
   const [passwordInputState, setPasswordInputState] = useState("");
   const [checkPasswordInputState, setCheckPasswordInputState] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleRegister = (email: string, password: string) => {
+    const auth = getAuth();
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        console.log(user);
+        const { email, uid, accessToken } = user as IUser;
+        dispatch(setUser({ email, id: uid, token: accessToken }));
+      })
+      .catch(console.error);
+  };
 
   return (
     <Container>
@@ -203,6 +251,7 @@ export function Registration() {
             ? false
             : true
         }
+        onClick={() => handleRegister(emailInputState, passwordInputState)}
       />
 
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
@@ -212,7 +261,7 @@ export function Registration() {
   );
 }
 
-/// страница регистрации:
+/// страница регистрации сборка:
 
 export function RegistrationPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -225,6 +274,7 @@ export function RegistrationPage() {
   );
 }
 
+/// страница регистрации рендер:
 export function RenderRegistrationPage() {
   return <RegistrationPage />;
 }
