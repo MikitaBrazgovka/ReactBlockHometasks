@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import "../mainTitle(37-1)/mainTitleStyles.css";
-import { MainTitle } from "../mainTitle(37-1)/mainTitle";
 import { useDispatch } from "react-redux"; // для авторизации
 import { setUser } from "./store/slices/userSlice"; // для авторизации
+import { useNavigate } from "react-router-dom";
+import bacgroungImage from "./bacgroundImage.png";
+import "../../fonts/Exo_2/fontStyles.css";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -12,39 +14,54 @@ import {
 } from "firebase/auth"; // для авторизации
 
 export const Container = styled.div`
-  margin: 0 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url(${bacgroungImage});
+  width: 100%;
+  min-height: 150vh;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+`;
+
+const AuthorizationWrapper = styled.div`
+  width: 574px;
+  min-height: 540px;
+  background: #242426;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+  opacity: 0.95;
 `;
 
 export const Inputs = styled.input`
-  width: 300px;
-  height: 30px;
-  border-radius: 20px;
-  border: solid 1px rgb(0, 119, 255);
+  width: 494px;
+  height: 56px;
+  border-radius: 10px;
+  border: none;
   display: flex;
-  flex-direction: column;
   margin: 20px 0;
   font-size: 16px;
-  font-family: Raleway-Regular;
+  background-color: #323537;
+  color: #80858b;
+  font-family: Exo2-Regular;
 `;
 
 export const Button = styled.button`
-  width: 303px;
-  height: 33px;
-  border-radius: 20px;
+  width: 494px;
+  height: 56px;
+  border-radius: 10px;
   margin-top: 10px;
   font-size: 16px;
-  background-color: rgb(0, 119, 255);
+  background-color: #7b61ff;
   font-family: Raleway-Regular;
   color: rgb(225, 227, 230);
   cursor: pointer;
-`;
-
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  border: none;
 `;
 
 const Title = styled.h1<{ isActive: boolean }>`
@@ -61,11 +78,11 @@ interface IUser extends User {
 /// компонент с инпутом:
 export function Input(props: any) {
   return (
-    <InputContainer>
+    <>
       <label
         style={{
           fontSize: "20px",
-          fontFamily: "Raleway-Regular",
+          fontFamily: "Exo2-Bold",
           color: "gray",
           fontWeight: "bold",
         }}
@@ -79,7 +96,7 @@ export function Input(props: any) {
           onChange={props.onChange}
         />
       </label>
-    </InputContainer>
+    </>
   );
 }
 
@@ -87,7 +104,15 @@ export function Input(props: any) {
 
 export function Btn(props: any) {
   return (
-    <Button disabled={props.disabled} type={props.type} onClick={props.onClick}>
+    <Button
+      style={{
+        fontSize: "20px",
+        fontFamily: "Exo2-Bold",
+      }}
+      disabled={props.disabled}
+      type={props.type}
+      onClick={props.onClick}
+    >
       {props.text}
     </Button>
   );
@@ -109,6 +134,7 @@ export function LoginRegistrationButtons({
         gap: "40px",
         marginBottom: "50px",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Title
@@ -149,11 +175,11 @@ export function Login() {
         const { email, uid, accessToken } = user as IUser;
         dispatch(setUser({ email, id: uid, token: accessToken }));
       })
-      .catch(console.error);
+      .catch((Error) => alert(Error.message));
   };
 
   return (
-    <Container>
+    <>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -187,7 +213,7 @@ export function Login() {
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Forgot your password? <a href="#">Reset password</a>
       </p>
-    </Container>
+    </>
   );
 }
 
@@ -199,6 +225,7 @@ export function Registration() {
   const [checkPasswordInputState, setCheckPasswordInputState] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleRegister = (email: string, password: string) => {
     const auth = getAuth();
@@ -208,12 +235,13 @@ export function Registration() {
         console.log(user);
         const { email, uid, accessToken } = user as IUser;
         dispatch(setUser({ email, id: uid, token: accessToken }));
+        navigate("/home");
       })
-      .catch(console.error);
+      .catch((Error) => alert(Error.message));
   };
 
   return (
-    <Container>
+    <>
       <Input
         label="Email:"
         name="Email"
@@ -257,7 +285,7 @@ export function Registration() {
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Have account already? <a href="#">Try to Login</a>
       </p>
-    </Container>
+    </>
   );
 }
 
@@ -268,8 +296,11 @@ export function RegistrationPage() {
 
   return (
     <Container>
-      <LoginRegistrationButtons isLogin={isLogin} setIsLogin={setIsLogin} />
-      {isLogin ? <Login /> : <Registration />}
+      .
+      <AuthorizationWrapper>
+        <LoginRegistrationButtons isLogin={isLogin} setIsLogin={setIsLogin} />
+        {isLogin ? <Login /> : <Registration />}
+      </AuthorizationWrapper>
     </Container>
   );
 }

@@ -7,7 +7,7 @@ const ThemeVariants = {
   Dark: {
     backgroundColor: "black",
     textColor: "white",
-    headerBackground: "rgb(72, 109, 105)",
+    headerBackground: "#323537",
   },
   Light: {
     backgroundColor: "white",

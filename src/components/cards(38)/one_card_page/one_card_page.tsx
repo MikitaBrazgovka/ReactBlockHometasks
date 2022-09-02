@@ -10,11 +10,11 @@ import { useParams } from "react-router-dom";
 import { ThemeContext } from "../../providers/themeProvider";
 
 const PageWrapper = styled.div`
-  min-height: 100vh;
+  max-width: 1490px;
+  margin: 50px 85px;
   display: flex;
-  flex-direction: row;
-  padding-top: 50px;
-  gap: 42px;
+  flex-wrap: wrap;
+  gap: 40px;
 `;
 
 const PosterAndBtnWrapper = styled.div`
@@ -51,7 +51,7 @@ const UnderPosterButton = styled.button`
   }
 `;
 
-const MainTitleMovie = styled.h1`
+export const MainTitleMovie = styled.h1`
   font-family: Exo2-Bold;
   font-size: 16px;
   color: #ffffff;
