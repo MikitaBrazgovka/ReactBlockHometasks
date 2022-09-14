@@ -11,7 +11,9 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   User,
+  updateProfile,
 } from "firebase/auth"; // для авторизации
+console.log("bacgroungImage", bacgroungImage);
 
 export const Container = styled.div`
   display: flex;
@@ -166,15 +168,23 @@ export function Login() {
   const [passwordInputState, setpasswordInputState] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = (email: string, password: string) => {
     const auth = getAuth();
+
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         console.log(user);
-        const { email, uid, accessToken } = user as IUser;
-        dispatch(setUser({ email, id: uid, token: accessToken }));
+
+        const { email, uid, accessToken, displayName } = user as IUser;
+
+        dispatch(
+          setUser({ username: displayName, email, id: uid, token: accessToken })
+        );
+        navigate("/home");
       })
+
       .catch((Error) => alert(Error.message));
   };
 
@@ -208,6 +218,7 @@ export function Login() {
           disabled={
             emailInputState != "" && passwordInputState != "" ? false : true
           }
+          onClick={() => handleLogin(emailInputState, passwordInputState)}
         />
       </form>
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
@@ -223,25 +234,57 @@ export function Registration() {
   const [emailInputState, setEmailInputState] = useState("");
   const [passwordInputState, setPasswordInputState] = useState("");
   const [checkPasswordInputState, setCheckPasswordInputState] = useState("");
+  const [userNameInputState, setUserNameInputState] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleRegister = (email: string, password: string) => {
+  const handleRegister = async (
+    username: string,
+    email: string,
+    password: string
+  ) => {
     const auth = getAuth();
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        console.log(user);
-        const { email, uid, accessToken } = user as IUser;
-        dispatch(setUser({ email, id: uid, token: accessToken }));
-        navigate("/home");
-      })
-      .catch((Error) => alert(Error.message));
+      await updateProfile(user, {
+        displayName: `${username}`,
+      });
+
+      const { uid, accessToken, displayName } = user as IUser;
+
+      console.log(user);
+
+      dispatch(
+        setUser({
+          username: displayName,
+          email,
+          id: uid,
+          token: accessToken,
+        })
+      );
+      navigate("/home");
+    } catch (err) {
+      alert((err as Error).message);
+    }
   };
 
   return (
     <>
+      <Input
+        label="User Name:"
+        name="name"
+        type="text"
+        placeholder="enter your Name"
+        value={userNameInputState}
+        onChange={(event: any) => setUserNameInputState(event.target.value)}
+      />
+
       <Input
         label="Email:"
         name="Email"
@@ -268,10 +311,10 @@ export function Registration() {
           setCheckPasswordInputState(event.target.value)
         }
       />
-
       <Btn
         text="Register"
         disabled={
+          userNameInputState != "" &&
           emailInputState != "" &&
           passwordInputState != "" &&
           checkPasswordInputState != "" &&
@@ -279,9 +322,14 @@ export function Registration() {
             ? false
             : true
         }
-        onClick={() => handleRegister(emailInputState, passwordInputState)}
+        onClick={() =>
+          handleRegister(
+            userNameInputState,
+            emailInputState,
+            passwordInputState
+          )
+        }
       />
-
       <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
         Have account already? <a href="#">Try to Login</a>
       </p>

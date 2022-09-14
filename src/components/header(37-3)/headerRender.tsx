@@ -33,7 +33,13 @@ export function RenderHeader() {
     >
       <Container>
         <ThemeButton />
-        <MainLogo />
+        <MainLogo
+          style={{
+            width: "158px",
+            height: "40px",
+          }}
+        />
+
         <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
           <BurgerBtn style={{ cursor: "pointer" }} />
         </ButtonWrapper>
@@ -49,7 +55,7 @@ export function RenderHeader() {
         ) : (
           <OpenedHeader
             text1="Home"
-            text2="Trends"
+            text2="Top Rated"
             text3="Favorites"
             text4="Settings"
           />

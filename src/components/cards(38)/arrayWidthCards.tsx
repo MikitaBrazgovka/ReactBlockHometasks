@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Post } from "./oneCard";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Pagination } from "../pagination/paginationBlock";
 
 export interface Card {
   Poster: string;
@@ -23,14 +17,19 @@ export function CardsArray() {
   const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState<Card[]>([]);
 
+  const [cardsTotal, setcardsTotal] = useState<any>();
+  const [moviesPerPage] = useState<number>(10);
+  const [currentPage, setcurrentPage] = useState(1);
+
   useEffect(() => {
     setIsLoading(true);
-    fetch("http://www.omdbapi.com/?apikey=122eac9b&s=mad")
+    fetch(`http://www.omdbapi.com/?apikey=122eac9b&s=mad&page=${currentPage}`)
       .then((responce) => responce.json())
       .then(
         (data: any) => {
           setCards(data.Search);
-          console.log(data);
+          setcardsTotal(+data.totalResults);
+          // console.log(cardsTotal);
           setIsLoading(false);
         },
         (error: Error) => {
@@ -38,7 +37,7 @@ export function CardsArray() {
           setError(error);
         }
       );
-  }, []);
+  }, [currentPage]);
   // console.log(cards);
 
   if (error) {
@@ -48,6 +47,7 @@ export function CardsArray() {
   if (isLoading) {
     return <div>Загрузка...</div>;
   }
+  const paginate = (currentPage: number) => setcurrentPage(currentPage);
 
   return (
     <>
@@ -65,6 +65,13 @@ export function CardsArray() {
           }}
         />
       ))}
+
+      <Pagination
+        currentPage={currentPage}
+        cardsTotal={cardsTotal}
+        moviesPerPage={moviesPerPage}
+        paginate={paginate}
+      />
     </>
   );
 }

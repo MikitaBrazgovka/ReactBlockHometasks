@@ -228,6 +228,11 @@ export function CardDescriptionPage() {
               gap: "20px",
             }}
           >
+            {/* {["Year", "Released"].map((label) => (
+              <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+                {label}
+              </div>
+            ))} */}
             <div style={{ color: `${context.themeVariant["textColor"]}` }}>
               Year
             </div>

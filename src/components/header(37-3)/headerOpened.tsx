@@ -16,6 +16,14 @@ export const ButtonWrapper = styled.div<{ isOpened: boolean }>`
   display: ${({ isOpened }) => (isOpened ? "block" : "none")};
 `;
 
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const LI = styled.li`
   font-size: 20px;
   list-style-type: none;
@@ -26,20 +34,30 @@ const LI = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  gap: 10px;
+  gap: 15px;
 
   :hover {
-    text-decoration: underline;
     color: white;
   }
 `;
 
+const InputSearch = styled.input`
+  display: flex;
+  width: 500px;
+  height: 40px;
+  background-color: #323537;
+  border-radius: 10px;
+  border: none;
+  color: wheat;
+  font-size: 16px;
+  font-family: Exo2-Regular;
+`;
+
 export function OpenedHeader(props: any) {
   return (
-    <div className="listContainer">
+    <ListContainer>
       <ul style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
-        <Link to="/home">
+        <Link to="/home" style={{ textDecoration: "none", display: "flex" }}>
           <LI>
             <div>{props.text1}</div>
             <div>
@@ -48,17 +66,16 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
 
-        <Link to="/trends">
+        <Link to="/toprated" style={{ textDecoration: "none" }}>
           <LI>
             <div>{props.text2} </div>
-            <div>
-              {" "}
+            <div style={{ alignSelf: "center" }}>
               <img src={TrendsIcon} alt="" />
             </div>
           </LI>
         </Link>
 
-        <Link to="/favorites">
+        <Link to="/favorites" style={{ textDecoration: "none" }}>
           <LI>
             <div>{props.text3}</div>
             <div>
@@ -67,7 +84,7 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
 
-        <Link to="/settings">
+        <Link to="/settings" style={{ textDecoration: "none" }}>
           <LI>
             <div>{props.text4}</div>
             <div>
@@ -76,6 +93,8 @@ export function OpenedHeader(props: any) {
           </LI>
         </Link>
       </ul>
-    </div>
+
+      <InputSearch />
+    </ListContainer>
   );
 }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 /// базовое состояние:
-const initialState = { email: null, token: null, id: null };
+const initialState = { username: null, email: null, token: null, id: null };
 
 /// создание слайса:
 const userSlice = createSlice({
@@ -9,11 +9,13 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
+      state.username = action.payload.username;
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.id = action.payload.id;
     },
     removeUser(state) {
+      state.username = null;
       state.email = null;
       state.token = null;
       state.id = null;
