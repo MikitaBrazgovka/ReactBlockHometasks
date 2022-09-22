@@ -51,6 +51,7 @@ export const Inputs = styled.input`
   background-color: #323537;
   color: #80858b;
   font-family: Exo2-Regular;
+  padding: 0 10px;
 `;
 
 export const Button = styled.button`
@@ -64,6 +65,9 @@ export const Button = styled.button`
   color: rgb(225, 227, 230);
   cursor: pointer;
   border: none;
+  :hover {
+    background-color: green;
+  }
 `;
 
 const Title = styled.h1<{ isActive: boolean }>`

@@ -3,6 +3,7 @@ import { Post } from "./oneCard";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "../pagination/paginationBlock";
 import { SearchContext } from "../providers/searchProvider";
+import styled from "styled-components";
 
 export interface Card {
   Poster: string;
@@ -12,7 +13,16 @@ export interface Card {
   imdbID: string;
 }
 
-export function CardsArray() {
+const PostsContainer = styled.div`
+  max-width: 1490px;
+  margin: 0px 85px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+`;
+
+export function NewCardsArray() {
   const navigate = useNavigate();
   const [error, setError] = useState<null | Error>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,25 +34,21 @@ export function CardsArray() {
 
   const context = useContext(SearchContext);
 
-  console.log(context);
+  let currentYear = new Date().getFullYear();
+
+  console.log(currentYear);
 
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&page=${currentPage}`
+      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&y=${currentYear}&page=${currentPage}`
     )
       .then((responce) => responce.json())
       .then(
         (data: any) => {
-          console.log("data before", data);
-
-          if (data.Response == "False") {
-            alert("Not found");
-          } else {
-            console.log("data after", data);
-            setCards(data.Search);
-            setcardsTotal(+data.totalResults);
-          }
+          setCards(data.Search);
+          setcardsTotal(+data.totalResults);
+          // console.log(cardsTotal);
           setIsLoading(false);
         },
         (error: Error) => {
@@ -57,14 +63,12 @@ export function CardsArray() {
   }
 
   if (isLoading) {
-    return <div style={{ color: "white" }}>Загрузка...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (!context) return null;
 
   const paginate = (currentPage: number) => setcurrentPage(currentPage);
-
-  console.log("cards", cards);
 
   return (
     <>
@@ -76,7 +80,6 @@ export function CardsArray() {
           postGenres={card.Type}
           poster={card.Poster}
           postYear={card.Year}
-          imdbRating={7.4}
           onClick={() => {
             navigate(`${card.imdbID}`);
           }}
@@ -90,5 +93,13 @@ export function CardsArray() {
         paginate={paginate}
       />
     </>
+  );
+}
+
+export function NewPosts() {
+  return (
+    <PostsContainer>
+      <NewCardsArray />
+    </PostsContainer>
   );
 }

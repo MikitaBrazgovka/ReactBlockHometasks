@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Input } from "./LoginRegistrationPage";
 import "../../fonts/Exo_2/fontStyles.css";
 import { ThemeButton } from "../providers/themeProvider";
 import { Button } from "./LoginRegistrationPage";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/use-auth";
+
+import { getAuth, updatePassword } from "firebase/auth";
 
 const PageContainer = styled.div`
   max-width: 1490px;
@@ -35,6 +38,22 @@ const BoxContainer = styled.div`
 export function Settings() {
   const navigate = useNavigate();
 
+  const { isAuth, email, username }: any = useAuth();
+
+  const [NewPassword, SetNewPassword] = useState("");
+  const [ConfirmNewPassword, SetConfirmNewPassword] = useState("");
+
+  const handleCahngePassword = (password: string) => {
+    const auth = getAuth();
+    const user: any = auth.currentUser;
+
+    updatePassword(user, password)
+      .then(() => {
+        alert("Password changed");
+      })
+      .catch((Error) => alert(Error.message));
+  };
+
   return (
     <PageContainer>
       <Title>Profile</Title>
@@ -43,13 +62,13 @@ export function Settings() {
           label="User Name:"
           name="Name"
           type="text"
-          value={"Please LogIn"}
+          value={`${isAuth ? username : "Not authorized"}`}
         />
         <Input
           label="Email:"
           name="Email"
           type="email"
-          value={"Please LogIn"}
+          value={`${isAuth ? email : "Not authorized"}`}
         />
       </BoxContainer>
 
@@ -58,21 +77,41 @@ export function Settings() {
         <Input
           label="New password:"
           name="New password"
-          type="text"
-          value={"Please LogIn"}
+          type="password"
+          placeholder={"Enter new password"}
+          value={NewPassword}
+          onChange={(event: any) => SetNewPassword(event.target.value)}
         />
         <Input
           label="Password:"
           name="Password"
           type="text"
-          value={"Please LogIn"}
+          value={`${isAuth ? "Password identifyed" : "Not authorized"}`}
+          disabled={true}
         />
         <Input
           label="Confirm password:"
-          name="Email"
-          type="email"
-          value={"Please LogIn"}
+          name="Confirm password"
+          type="password"
+          placeholder={"Confirm new password"}
+          value={ConfirmNewPassword}
+          onChange={(event: any) => SetConfirmNewPassword(event.target.value)}
         />
+        <Button
+          onClick={() => {
+            handleCahngePassword(NewPassword);
+          }}
+          style={{ width: "266px" }}
+          disabled={
+            NewPassword != "" &&
+            ConfirmNewPassword != "" &&
+            NewPassword == ConfirmNewPassword
+              ? false
+              : true
+          }
+        >
+          Change Password
+        </Button>
       </BoxContainer>
 
       <Title>Color mode:</Title>

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { CardsArray } from "./arrayWidthCards";
-import { Navigate } from "react-router-dom"; //// для авторизации
 
 const PostsContainer = styled.div`
   max-width: 1490px;

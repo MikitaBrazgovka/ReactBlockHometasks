@@ -1,5 +1,5 @@
 import { type } from "@testing-library/user-event/dist/type";
-import React, { ReactNode, useState, useContext, Dispatch } from "react";
+import React, { ReactNode, useState, useContext } from "react";
 import { ReactComponent as LightThemeButton } from "./light.svg";
 import { ReactComponent as DarkThemeButton } from "./moon.svg";
 
@@ -12,11 +12,11 @@ const ThemeVariants = {
   Light: {
     backgroundColor: "white",
     textColor: "black",
-    headerBackground: "rgb(194, 70, 101)",
+    headerBackground: "#c0d0e5",
   },
 };
 
-/// типизация контекста темы (не работает ....):
+/// типизация контекста темы:
 interface ThemeType {
   themeVariant: typeof ThemeVariants.Dark | typeof ThemeVariants.Light;
   setThemeVariant: (
@@ -41,6 +41,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// компонент с кнопкой переключения темы:
 export function ThemeButton() {
   const context = useContext(ThemeContext);
 

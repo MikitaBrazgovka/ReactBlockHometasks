@@ -18,9 +18,11 @@ const PaginationButton = styled.button<{ isSelected: boolean }>`
 const PaginationLine = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
   margin: 30px auto;
+  width: 100%;
 `;
 
 export function Pagination({

@@ -55,7 +55,7 @@ export function RenderHeader() {
         ) : (
           <OpenedHeader
             text1="Home"
-            text2="Top Rated"
+            text2="New"
             text3="Favorites"
             text4="Settings"
           />
