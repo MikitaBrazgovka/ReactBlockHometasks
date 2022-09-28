@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { RenderHeader } from "./components/header(37-3)/headerRender";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { RenderRegistrationPage } from "./components/authorizationPage(38-39)/LoginRegistrationPage";
+import { FavoritePosts } from "./components/cards(38)/favorite_cards/favorites";
 import { Posts } from "./components/cards(38)/cardsPage";
 import { NewPosts } from "./components/cards(38)/newCardsPage";
 import { CardDescriptionPage } from "./components/cards(38)/one_card_page/one_card_page";
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/new" element={<NewPosts />} />
                 <Route path="/new/:cardId" element={<CardDescriptionPage />} />
                 <Route path="/login" element={<RenderRegistrationPage />} />
+                <Route path="/favorites" element={<FavoritePosts />} />
                 <Route path="/settings" element={<Settings />} />
               </Routes>
             </Layout>

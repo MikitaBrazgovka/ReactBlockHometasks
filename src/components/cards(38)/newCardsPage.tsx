@@ -46,9 +46,12 @@ export function NewCardsArray() {
       .then((responce) => responce.json())
       .then(
         (data: any) => {
-          setCards(data.Search);
-          setcardsTotal(+data.totalResults);
-          // console.log(cardsTotal);
+          if (data.Response == "False") {
+            alert("Not found");
+          } else {
+            setCards(data.Search);
+            setcardsTotal(+data.totalResults);
+          }
           setIsLoading(false);
         },
         (error: Error) => {

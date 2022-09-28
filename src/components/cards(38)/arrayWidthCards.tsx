@@ -3,6 +3,7 @@ import { Post } from "./oneCard";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "../pagination/paginationBlock";
 import { SearchContext } from "../providers/searchProvider";
+import { BidSpinner } from "../spinners/spinners";
 
 export interface Card {
   Poster: string;
@@ -24,8 +25,6 @@ export function CardsArray() {
 
   const context = useContext(SearchContext);
 
-  console.log(context);
-
   useEffect(() => {
     setIsLoading(true);
     fetch(
@@ -34,12 +33,9 @@ export function CardsArray() {
       .then((responce) => responce.json())
       .then(
         (data: any) => {
-          console.log("data before", data);
-
           if (data.Response == "False") {
             alert("Not found");
           } else {
-            console.log("data after", data);
             setCards(data.Search);
             setcardsTotal(+data.totalResults);
           }
@@ -57,14 +53,12 @@ export function CardsArray() {
   }
 
   if (isLoading) {
-    return <div style={{ color: "white" }}>Загрузка...</div>;
+    return <BidSpinner />;
   }
 
   if (!context) return null;
 
   const paginate = (currentPage: number) => setcurrentPage(currentPage);
-
-  console.log("cards", cards);
 
   return (
     <>

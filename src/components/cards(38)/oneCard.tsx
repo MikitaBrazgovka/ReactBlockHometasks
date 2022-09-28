@@ -3,8 +3,9 @@ import styled from "styled-components";
 import "../../fonts/Exo_2/fontStyles.css";
 import { ThemeContext } from "../providers/themeProvider";
 import { OneCardType } from "./one_card_page/one_card_page";
+import { SmallSpinner } from "../spinners/spinners";
 
-const CardWrapper = styled.div`
+export const CardWrapper = styled.div`
   width: 266px;
   height: 400px;
   margin: 40px 0;
@@ -24,7 +25,7 @@ export const PosterWrapper = styled.div`
   position: relative;
 `;
 
-const ImdbRatingWrapper = styled.div<{ imdbRating: number | string }>`
+export const ImdbRatingWrapper = styled.div<{ imdbRating: number | string }>`
   width: 24px;
   height: 24px;
   background-color: ${({ imdbRating }) => {
@@ -47,7 +48,7 @@ const ImdbRatingWrapper = styled.div<{ imdbRating: number | string }>`
   color: #ffffff;
 `;
 
-const PostTitle = styled.h2`
+export const PostTitle = styled.h2`
   font-family: Exo2-Bold;
   font-size: 16px;
   color: #ffffff;
@@ -85,7 +86,7 @@ export function Post(props: any) {
     return <div>Ошибка: {error.message}</div>;
   }
   if (isLoading) {
-    return <div>Жди...</div>;
+    return <SmallSpinner />;
   }
   if (!card) {
     return <div>No data</div>;

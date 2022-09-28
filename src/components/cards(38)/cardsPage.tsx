@@ -9,6 +9,7 @@ const PostsContainer = styled.div`
   flex-wrap: wrap;
   gap: 40px;
   justify-content: center;
+  align-items: center;
 `;
 
 export function Posts() {

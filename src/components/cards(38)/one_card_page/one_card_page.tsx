@@ -8,6 +8,8 @@ import { PostGenres } from "../oneCard";
 import "../../../fonts/Exo_2/fontStyles.css";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "../../providers/themeProvider";
+import { type } from "@testing-library/user-event/dist/type";
+import { BidSpinner } from "../../spinners/spinners";
 
 const PageWrapper = styled.div`
   max-width: 1490px;
@@ -34,16 +36,19 @@ const UnderPosterButtons = styled.div`
   height: 56px;
   display: flex;
   margin: 30px 0;
+  justify-content: space-between;
 `;
 
-const UnderPosterButton = styled.button`
-  width: 132px;
+const UnderPosterButton = styled.button<{ isClicked: boolean }>`
+  width: 128px;
   height: 56px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background-color: #323537;
+  border: none;
+  background-color: ${({ isClicked }) =>
+    isClicked ? "rgb(123, 97, 255)" : "#323537"};
   cursor: pointer;
   :hover {
     background-color: rgb(123, 97, 255);
@@ -111,32 +116,47 @@ const InfoWrapper = styled.div`
 `;
 
 export interface OneCardType {
-  Title: string;
-  Year: string;
-  Rated: string;
-  Released: string;
-  Runtime: string;
-  Genre: string;
-  Director: string;
-  Writer: string;
-  Actors: string;
-  Plot: string;
-  Language: string;
-  Country: string;
-  Awards: string;
-  Poster: string;
-  Ratings: object[];
-  Metascore: string;
+  Title?: string;
+  Year?: string;
+  Rated?: string;
+  Released?: string;
+  Runtime?: string;
+  Genre?: string;
+  Director?: string;
+  Writer?: string;
+  Actors?: string;
+  Plot?: string;
+  Language?: string;
+  Country?: string;
+  Awards?: string;
+  Poster?: string;
+  Ratings?: object[];
+  Metascore?: string;
   imdbRating: string | number;
-  imdbVotes: string;
+  imdbVotes?: string;
   imdbID: string;
-  Type: string;
-  DVD: string;
-  BoxOffice: string;
-  Production: string;
-  Website: string;
-  Response: string;
+  Type?: string;
+  DVD?: string;
+  BoxOffice?: string;
+  Production?: string;
+  Website?: string;
+  Response?: string;
 }
+
+// функция для хранения карточек в Local Storage:
+
+let addToFavorites = (id: string) => {
+  const favorites = localStorage.getItem("favorites");
+  const moviesInStorage: string[] = favorites ? JSON.parse(favorites) : [];
+
+  if (moviesInStorage.includes(id)) {
+    moviesInStorage.splice(moviesInStorage.indexOf(id), 1);
+  } else {
+    moviesInStorage.push(id);
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(moviesInStorage));
+};
 
 /// запрос подробного описания карточки:
 export function CardDescriptionPage() {
@@ -145,6 +165,16 @@ export function CardDescriptionPage() {
   const [card, setCard] = useState<OneCardType | null>(null);
 
   let params = useParams();
+
+  const [isClicked, setIsClicked] = useState(() => {
+    const favorites = localStorage.getItem("favorites");
+    const moviesInStorage: string[] = favorites ? JSON.parse(favorites) : [];
+    if (moviesInStorage.includes(params.cardId as string)) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 
   const context = useContext(ThemeContext);
 
@@ -157,7 +187,7 @@ export function CardDescriptionPage() {
       .then(
         (data: OneCardType) => {
           setCard(data);
-          // console.log(data);
+
           setIsLoading(false);
         },
         (error: Error) => {
@@ -171,7 +201,7 @@ export function CardDescriptionPage() {
     return <div>Ошибка: {error.message}</div>;
   }
   if (isLoading) {
-    return <div>Жди...</div>;
+    return <BidSpinner />;
   }
   if (!card) {
     return <div>No data</div>;
@@ -185,11 +215,24 @@ export function CardDescriptionPage() {
             backgroundImage: `url(${card.Poster})`,
           }}
         ></PosterWrapper>
+
         <UnderPosterButtons>
-          <UnderPosterButton>
+          <UnderPosterButton
+            isClicked={isClicked}
+            onClick={() => {
+              setIsClicked(() => {
+                if (isClicked == true) {
+                  return false;
+                } else {
+                  return true;
+                }
+              });
+              addToFavorites(card.imdbID);
+            }}
+          >
             <img src={BookmarkBtn} alt="bookmark" />
           </UnderPosterButton>
-          <UnderPosterButton>
+          <UnderPosterButton isClicked={false}>
             <img src={ShareBtn} alt="bookmark" />
           </UnderPosterButton>
         </UnderPosterButtons>
@@ -228,35 +271,20 @@ export function CardDescriptionPage() {
               gap: "20px",
             }}
           >
-            {/* {["Year", "Released"].map((label) => (
+            {[
+              "Year",
+              "Released",
+              "BoxOffice",
+              "Country",
+              "Production",
+              "Actors",
+              "Director",
+              "Writers",
+            ].map((label) => (
               <div style={{ color: `${context.themeVariant["textColor"]}` }}>
                 {label}
               </div>
-            ))} */}
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Year
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Released
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              BoxOffice
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Country
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Production
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Actors
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Director
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              Writers
-            </div>
+            ))}
           </div>
 
           <div
@@ -266,30 +294,26 @@ export function CardDescriptionPage() {
               gap: "20px",
             }}
           >
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Year}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Released}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.BoxOffice}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Country}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Production}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Actors}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Director}
-            </div>
-            <div style={{ color: `${context.themeVariant["textColor"]}` }}>
-              {card.Writer}
-            </div>
+            {[
+              card.Year,
+              card.Released,
+              card.BoxOffice,
+              card.Country,
+              card.Production,
+              card.Actors,
+              card.Director,
+              card.Writer,
+            ].map((text) =>
+              text ? (
+                <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+                  {text}
+                </div>
+              ) : (
+                <div style={{ color: `${context.themeVariant["textColor"]}` }}>
+                  {"No information"}
+                </div>
+              )
+            )}
           </div>
         </InfoWrapper>
       </DescriptionWrapper>
