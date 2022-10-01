@@ -12,7 +12,7 @@ const ThemeVariants = {
   Light: {
     backgroundColor: "white",
     textColor: "black",
-    headerBackground: "#c0d0e5",
+    headerBackground: "#000033",
   },
 };
 

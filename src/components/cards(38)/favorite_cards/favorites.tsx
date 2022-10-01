@@ -3,7 +3,8 @@ import { OneCardType } from "../one_card_page/one_card_page";
 import { Card } from "../arrayWidthCards";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import { BidSpinner } from "../../spinners/spinners";
+import { FilterContext } from "../../providers/filterProvider";
 import { Post } from "../oneCard";
 
 const PostsContainer = styled.div`
@@ -17,18 +18,12 @@ const PostsContainer = styled.div`
 
 export function FavoriteCardsArray() {
   const navigate = useNavigate();
+
   const [error, setError] = useState<null | Error>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [card, setCard] = useState<OneCardType | null>(null); /// объект для каждой карточки
   const [arrayCards, setArrayCards] = useState<any[]>([]); /// массив куда складывать карточки
 
-  const [cardsTotal, setcardsTotal] = useState<any>();
-  const [moviesPerPage] = useState<number>(10);
-  const [currentPage, setcurrentPage] = useState(1);
-
-  // const context = useContext(SearchContext);
-
-  // const locals = JSON.parse(localStorage.getItem("favorites"));
+  const contextFilter = useContext(FilterContext);
 
   useEffect(() => {
     const favorites = localStorage.getItem("favorites");
@@ -40,21 +35,27 @@ export function FavoriteCardsArray() {
         .then((responce) => responce.json())
         .then(
           (data: OneCardType) => {
-            // setCard(data);
+            if (data.Type == contextFilter.filterValue) {
+              setArrayCards((prev) => {
+                const isIncluded =
+                  prev.findIndex(({ imdbID }) => imdbID === data.imdbID) !== -1;
+                if (isIncluded) return prev;
 
-            setArrayCards((prev) => {
-              const isIncluded =
-                prev.findIndex(({ imdbID }) => imdbID === data.imdbID) !== -1;
-              if (isIncluded) return prev;
+                return [...prev, data];
+              });
+            } else if (contextFilter.filterValue === "") {
+              setArrayCards((prev) => {
+                const isIncluded =
+                  prev.findIndex(({ imdbID }) => imdbID === data.imdbID) !== -1;
+                if (isIncluded) return prev;
 
-              return [...prev, data];
-            });
-
+                return [...prev, data];
+              });
+            }
             setIsLoading(false);
           },
           (error: Error) => {
             setIsLoading(false);
-
             setError(error);
           }
         );
@@ -64,19 +65,15 @@ export function FavoriteCardsArray() {
       setArrayCards([]);
       console.log("unmount");
     };
-  }, []);
+  }, [contextFilter.filterValue]);
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;
   }
 
   if (isLoading) {
-    return <div style={{ color: "white" }}>Загрузка...</div>;
+    return <BidSpinner />;
   }
-
-  //  if (!context) return null;
-
-  //  const paginate = (currentPage: number) => setcurrentPage(currentPage);
 
   console.log("arrayCards", arrayCards);
 
@@ -96,13 +93,6 @@ export function FavoriteCardsArray() {
           }}
         />
       ))}
-
-      {/* <Pagination
-        currentPage={currentPage}
-        cardsTotal={cardsTotal}
-        moviesPerPage={moviesPerPage}
-        paginate={paginate}
-      /> */}
     </>
   );
 }

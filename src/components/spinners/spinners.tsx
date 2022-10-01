@@ -7,6 +7,8 @@ const SpinnerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 266px;
+  height: 400px;
 `;
 
 export function BidSpinner() {
@@ -16,7 +18,7 @@ export function BidSpinner() {
         size={200}
         thickness={100}
         speed={100}
-        color="#36ad47"
+        color="blue"
         secondaryColor="grey"
       />
     </SpinnerWrapper>
@@ -30,7 +32,7 @@ export function SmallSpinner() {
         size={100}
         thickness={100}
         speed={100}
-        color="#36ad47"
+        color="blue"
         secondaryColor="grey"
       />
     </SpinnerWrapper>

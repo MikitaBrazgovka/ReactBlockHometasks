@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "../pagination/paginationBlock";
 import { SearchContext } from "../providers/searchProvider";
 import styled from "styled-components";
+import { FilterContext } from "../providers/filterProvider";
 
 export interface Card {
   Poster: string;
@@ -33,6 +34,7 @@ export function NewCardsArray() {
   const [currentPage, setcurrentPage] = useState(1);
 
   const context = useContext(SearchContext);
+  const contextFilter = useContext(FilterContext);
 
   let currentYear = new Date().getFullYear();
 
@@ -41,7 +43,7 @@ export function NewCardsArray() {
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&y=${currentYear}&page=${currentPage}`
+      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&y=${currentYear}&page=${currentPage}&type=${contextFilter.filterValue}`
     )
       .then((responce) => responce.json())
       .then(
@@ -59,7 +61,7 @@ export function NewCardsArray() {
           setError(error);
         }
       );
-  }, [currentPage, context.searchValue]);
+  }, [currentPage, context.searchValue, contextFilter.filterValue]);
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;

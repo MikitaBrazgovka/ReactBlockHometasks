@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Input } from "./LoginRegistrationPage";
 import "../../fonts/Exo_2/fontStyles.css";
-import { ThemeButton } from "../providers/themeProvider";
+import { ThemeButton, ThemeContext } from "../providers/themeProvider";
 import { Button } from "./LoginRegistrationPage";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
@@ -37,7 +37,7 @@ const BoxContainer = styled.div`
 
 export function Settings() {
   const navigate = useNavigate();
-
+  const context = useContext(ThemeContext);
   const { isAuth, email, username }: any = useAuth();
 
   const [NewPassword, SetNewPassword] = useState("");
@@ -56,8 +56,12 @@ export function Settings() {
 
   return (
     <PageContainer>
-      <Title>Profile</Title>
-      <BoxContainer>
+      <Title style={{ color: `${context.themeVariant["textColor"]}` }}>
+        Profile
+      </Title>
+      <BoxContainer
+        style={{ background: `${context.themeVariant["headerBackground"]}` }}
+      >
         <Input
           label="User Name:"
           name="Name"
@@ -72,8 +76,12 @@ export function Settings() {
         />
       </BoxContainer>
 
-      <Title>Password</Title>
-      <BoxContainer>
+      <Title style={{ color: `${context.themeVariant["textColor"]}` }}>
+        Password
+      </Title>
+      <BoxContainer
+        style={{ background: `${context.themeVariant["headerBackground"]}` }}
+      >
         <Input
           label="New password:"
           name="New password"
@@ -114,9 +122,20 @@ export function Settings() {
         </Button>
       </BoxContainer>
 
-      <Title>Color mode:</Title>
-      <BoxContainer>
-        <Title style={{ fontSize: "16px" }}>Change theme color</Title>
+      <Title style={{ color: `${context.themeVariant["textColor"]}` }}>
+        Color mode:
+      </Title>
+      <BoxContainer
+        style={{ background: `${context.themeVariant["headerBackground"]}` }}
+      >
+        <Title
+          style={{
+            fontSize: "16px",
+            color: `${context.themeVariant["textColor"]}`,
+          }}
+        >
+          Change theme color
+        </Title>
         <ThemeButton />
       </BoxContainer>
 

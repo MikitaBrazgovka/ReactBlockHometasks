@@ -14,11 +14,21 @@ import { ThemeButton } from "../providers/themeProvider";
 
 const Container = styled.div`
   min-height: 80px;
-  margin: 0 16px;
-  padding: 0 5px;
+  margin: 0 12px;
+  padding: 5px 5px;
   display: flex;
   align-items: center;
-  gap: 40px;
+  /* justify-content: space-between; */
+  gap: 60px;
+`;
+
+const LogoButtonContainer = styled.div`
+  width: 240px;
+  height: 40px;
+  display: flex;
+  gap: 50px;
+
+  align-items: center;
 `;
 
 export function RenderHeader() {
@@ -33,22 +43,19 @@ export function RenderHeader() {
     >
       <Container>
         <ThemeButton />
-        <MainLogo
-          style={{
-            width: "158px",
-            height: "40px",
-          }}
-        />
+        <LogoButtonContainer>
+          <MainLogo style={{}} />
 
-        <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
-          <BurgerBtn style={{ cursor: "pointer" }} />
-        </ButtonWrapper>
+          <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>
+            <BurgerBtn style={{ cursor: "pointer" }} />
+          </ButtonWrapper>
 
-        <ButtonWrapper onClick={() => setstateBtn(true)} isOpened={!stateBtn}>
-          <CloserBtn
-            style={{ cursor: "pointer", width: "35px", height: "35px" }}
-          />
-        </ButtonWrapper>
+          <ButtonWrapper onClick={() => setstateBtn(true)} isOpened={!stateBtn}>
+            <CloserBtn
+              style={{ cursor: "pointer", width: "35px", height: "35px" }}
+            />
+          </ButtonWrapper>
+        </LogoButtonContainer>
 
         {stateBtn ? (
           <HeaderClose />

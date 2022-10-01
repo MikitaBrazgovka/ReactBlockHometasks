@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { ThemeContext } from "../providers/themeProvider";
 
 const PaginationButton = styled.button<{ isSelected: boolean }>`
   width: 40px;
@@ -13,6 +14,7 @@ const PaginationButton = styled.button<{ isSelected: boolean }>`
   }
   font-size: 20px;
   color: white;
+  border: none;
 `;
 
 const PaginationLine = styled.div`
@@ -36,6 +38,7 @@ export function Pagination({
   paginate: (element: number) => void;
   currentPage: number;
 }) {
+  const context = useContext(ThemeContext);
   const pages = pagination(5)(
     currentPage,
     Math.ceil(cardsTotal / moviesPerPage)
@@ -48,6 +51,7 @@ export function Pagination({
           key={`${el}-${index}`}
           onClick={() => (typeof el === "number" ? paginate(el) : null)}
           isSelected={currentPage === el}
+          style={{ color: `${context.themeVariant["textColor"]}` }}
         >
           {el}
         </PaginationButton>

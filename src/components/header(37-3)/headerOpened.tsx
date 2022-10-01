@@ -10,6 +10,7 @@ import SearchIcon from "./icons/Zoom.png";
 import { Link } from "react-router-dom";
 import { useState, useContext, useRef } from "react";
 import { SearchContext } from "../providers/searchProvider";
+import { FilterSelector } from "../providers/filterProvider";
 
 export const ButtonWrapper = styled.div<{ isOpened: boolean }>`
   width: 35px;
@@ -22,9 +23,13 @@ export const ButtonWrapper = styled.div<{ isOpened: boolean }>`
 const ListContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 60px;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 80px;
   justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 `;
 
 const LI = styled.li`
@@ -44,9 +49,17 @@ const LI = styled.li`
   }
 `;
 
-const InputSearch = styled.input`
+const InputSearchContainer = styled.div`
   display: flex;
-  width: 600px;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  gap: 20px;
+`;
+
+const InputSearch = styled.input`
+  min-width: 400px;
+  width: 100%;
   height: 40px;
   background-color: #323537;
   border-radius: 10px;
@@ -56,27 +69,24 @@ const InputSearch = styled.input`
   font-family: Exo2-Regular;
 `;
 
-const InputSearchContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 40px;
-  gap: 20px;
-`;
-
 export function OpenedHeader(props: any) {
-  const [inputvalue, setinputvalue] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  console.log(inputvalue);
-
   const context = useContext(SearchContext);
+
   if (!context) return null;
   const { searchValue, setSearchValue } = context;
 
   return (
     <ListContainer>
-      <ul style={{ display: "flex", flexDirection: "row", gap: "30px" }}>
+      <ul
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: "30px",
+          flexWrap: "wrap",
+        }}
+      >
         <Link to="/home" style={{ textDecoration: "none" }}>
           <LI>
             <div>{props.text1}</div>
@@ -115,13 +125,12 @@ export function OpenedHeader(props: any) {
       </ul>
 
       <InputSearchContainer>
-        <InputSearch
-          // value={inputvalue}
-          // onChange={(el) => setinputvalue(el.target.value)}
-          defaultValue={searchValue}
-          ref={inputRef}
-          type="search"
-        />
+        <ul>
+          <LI>
+            <FilterSelector />
+          </LI>
+        </ul>
+        <InputSearch defaultValue={searchValue} ref={inputRef} type="search" />
 
         <div
           onClick={(e) => {

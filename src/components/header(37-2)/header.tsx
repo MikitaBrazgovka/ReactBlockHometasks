@@ -1,4 +1,5 @@
 import * as React from "react";
+import "../../fonts/Exo_2/fontStyles.css";
 import { Button } from "../authorizationPage(38-39)/LoginRegistrationPage";
 import { ReactComponent as UserIcon } from "./user_icon.svg";
 import "./headerStyles.css";
@@ -9,55 +10,52 @@ import { useDispatch } from "react-redux";
 import { removeUser } from "../authorizationPage(38-39)/store/slices/userSlice";
 
 export const HeaderClosed = styled.header`
-  background-color: rgb(49, 49, 49);
   min-height: 80px;
   align-items: center;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const LoginButton = styled.button`
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: Exo2-Regular;
+  transition: 0.3s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  :hover {
+    background-color: green;
+  }
 `;
 
 export function HeaderClose() {
   const navigate = useNavigate();
-  const { isAuth, email } = useAuth();
+  const { isAuth, email, username } = useAuth();
   const dispatch = useDispatch();
 
   return isAuth ? (
     <div className="userContainer">
       <div>
-        <Button
-          onClick={() => dispatch(removeUser())}
-          style={{
-            height: "40px",
-            width: "130px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-            color: "black",
-          }}
-        >
+        <LoginButton onClick={() => dispatch(removeUser())}>
           <UserIcon />
-          Log out {email}
-        </Button>
+          <p style={{ color: "#7b61ff" }}>Log out: {username}</p>
+        </LoginButton>
       </div>
     </div>
   ) : (
     <div className="userContainer">
       <div>
-        <Button
-          onClick={() => navigate("/login")}
-          style={{
-            height: "40px",
-            width: "130px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-            color: "black",
-          }}
-        >
+        <LoginButton onClick={() => navigate("/login")}>
           <UserIcon />
-          Login
-        </Button>
+          <p style={{ color: "#7b61ff" }}>Log in / Registration</p>
+        </LoginButton>
       </div>
     </div>
   );

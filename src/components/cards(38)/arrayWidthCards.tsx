@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "../pagination/paginationBlock";
 import { SearchContext } from "../providers/searchProvider";
 import { BidSpinner } from "../spinners/spinners";
+import { FilterContext } from "../providers/filterProvider";
 
 export interface Card {
   Poster: string;
@@ -24,11 +25,12 @@ export function CardsArray() {
   const [currentPage, setcurrentPage] = useState(1);
 
   const context = useContext(SearchContext);
+  const contextFilter = useContext(FilterContext);
 
   useEffect(() => {
     setIsLoading(true);
     fetch(
-      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&page=${currentPage}`
+      `http://www.omdbapi.com/?apikey=122eac9b&s=${context.searchValue}&page=${currentPage}&type=${contextFilter.filterValue}`
     )
       .then((responce) => responce.json())
       .then(
@@ -46,7 +48,7 @@ export function CardsArray() {
           setError(error);
         }
       );
-  }, [currentPage, context.searchValue]);
+  }, [currentPage, context.searchValue, contextFilter.filterValue]);
 
   if (error) {
     return <div>Ошибка: {error.message}</div>;
