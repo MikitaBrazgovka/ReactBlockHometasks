@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { HeaderClosed } from "../header(37-2)/header";
+
 import { HeaderClose } from "../header(37-2)/header";
 import { OpenedHeader } from "../header(37-3)/headerOpened";
 import { ReactComponent as BurgerBtn } from "../header(37-2)/burger.svg";
@@ -12,21 +12,35 @@ import styled from "styled-components";
 
 import { ThemeButton } from "../providers/themeProvider";
 
+export const HeaderClosed = styled.header`
+  min-height: 80px;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  @media (max-width: 1320px) {
+    justify-content: center;
+  }
+`;
+
 const Container = styled.div`
   min-height: 80px;
   margin: 0 12px;
   padding: 5px 5px;
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
   gap: 60px;
+  @media (max-width: 1320px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 const LogoButtonContainer = styled.div`
-  width: 240px;
+  width: 300px;
   height: 40px;
   display: flex;
-  gap: 50px;
+  gap: 30px;
 
   align-items: center;
 `;
@@ -42,8 +56,9 @@ export function RenderHeader() {
       style={{ backgroundColor: `${context.themeVariant["headerBackground"]}` }}
     >
       <Container>
-        <ThemeButton />
         <LogoButtonContainer>
+          <ThemeButton />
+
           <MainLogo style={{}} />
 
           <ButtonWrapper onClick={() => setstateBtn(false)} isOpened={stateBtn}>

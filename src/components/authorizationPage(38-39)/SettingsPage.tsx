@@ -25,7 +25,16 @@ const Title = styled.h2`
 `;
 
 const BoxContainer = styled.div`
-  width: 1180px;
+  width: 1100px;
+  @media (max-width: 1250px) {
+    width: 800px;
+  }
+  @media (max-width: 930px) {
+    width: 600px;
+  }
+  @media (max-width: 700px) {
+    width: 300px;
+  }
   min-height: auto;
   background: #242426;
   border-radius: 10px;
@@ -83,6 +92,13 @@ export function Settings() {
         style={{ background: `${context.themeVariant["headerBackground"]}` }}
       >
         <Input
+          label="Password:"
+          name="Password"
+          type="text"
+          value={`${isAuth ? "Password identifyed" : "Not authorized"}`}
+          disabled={true}
+        />
+        <Input
           label="New password:"
           name="New password"
           type="password"
@@ -90,13 +106,7 @@ export function Settings() {
           value={NewPassword}
           onChange={(event: any) => SetNewPassword(event.target.value)}
         />
-        <Input
-          label="Password:"
-          name="Password"
-          type="text"
-          value={`${isAuth ? "Password identifyed" : "Not authorized"}`}
-          disabled={true}
-        />
+
         <Input
           label="Confirm password:"
           name="Confirm password"
@@ -130,8 +140,7 @@ export function Settings() {
       >
         <Title
           style={{
-            fontSize: "16px",
-            color: `${context.themeVariant["textColor"]}`,
+            fontSize: "18px",
           }}
         >
           Change theme color

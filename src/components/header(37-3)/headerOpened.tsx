@@ -25,7 +25,10 @@ const ListContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   gap: 80px;
-  justify-content: space-between;
+  @media (max-width: 1620px) {
+    gap: 0px;
+  }
+  justify-content: center;
   align-items: center;
   margin: 0;
   padding: 0;
@@ -58,7 +61,7 @@ const InputSearchContainer = styled.div`
 `;
 
 const InputSearch = styled.input`
-  min-width: 400px;
+  /* min-width: 400px; */
   width: 100%;
   height: 40px;
   background-color: #323537;
@@ -85,6 +88,7 @@ export function OpenedHeader(props: any) {
           flexDirection: "row",
           gap: "30px",
           flexWrap: "wrap",
+          maxWidth: "1100px",
         }}
       >
         <Link to="/home" style={{ textDecoration: "none" }}>

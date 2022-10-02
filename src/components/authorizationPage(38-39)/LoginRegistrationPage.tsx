@@ -21,14 +21,17 @@ export const Container = styled.div`
   align-items: center;
   background-image: url(${bacgroungImage});
   width: 100%;
-  min-height: 150vh;
+  min-height: 100vh;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 `;
 
 const AuthorizationWrapper = styled.div`
-  width: 574px;
+  width: 580px;
+  @media (max-width: 800px) {
+    width: 320px;
+  }
   min-height: 540px;
   background: #242426;
   border-radius: 10px;
@@ -37,15 +40,15 @@ const AuthorizationWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 40px;
+  margin-top: 20px;
   opacity: 0.95;
 `;
 
 export const Inputs = styled.input`
-  width: 494px;
+  max-width: 575px;
   height: 56px;
   border-radius: 10px;
   border: none;
-  display: flex;
   margin: 20px 0;
   font-size: 16px;
   background-color: #323537;
@@ -55,7 +58,7 @@ export const Inputs = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 494px;
+  width: 100%;
   height: 56px;
   border-radius: 10px;
   margin-top: 10px;
@@ -91,6 +94,9 @@ export function Input(props: any) {
           fontFamily: "Exo2-Bold",
           color: "gray",
           fontWeight: "bold",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {props.label}
@@ -199,6 +205,7 @@ export function Login() {
           event.preventDefault();
           handleLogin(emailInputState, passwordInputState);
         }}
+        style={{ display: "flex", flexDirection: "column", width: "100%" }}
       >
         <Input
           label="Email:"
@@ -279,7 +286,7 @@ export function Registration() {
   };
 
   return (
-    <>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <Input
         label="User Name:"
         name="name"
@@ -334,10 +341,16 @@ export function Registration() {
           )
         }
       />
-      <p style={{ fontFamily: "Raleway-Regular", color: "white" }}>
+      <p
+        style={{
+          fontFamily: "Raleway-Regular",
+          color: "white",
+          textAlign: "center",
+        }}
+      >
         Have account already? <a href="#">Try to Login</a>
       </p>
-    </>
+    </div>
   );
 }
 
@@ -348,7 +361,6 @@ export function RegistrationPage() {
 
   return (
     <Container>
-      .
       <AuthorizationWrapper>
         <LoginRegistrationButtons isLogin={isLogin} setIsLogin={setIsLogin} />
         {isLogin ? <Login /> : <Registration />}

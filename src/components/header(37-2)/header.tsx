@@ -9,14 +9,6 @@ import { useAuth } from "../../hooks/use-auth";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../authorizationPage(38-39)/store/slices/userSlice";
 
-export const HeaderClosed = styled.header`
-  min-height: 80px;
-  align-items: center;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
 export const LoginButton = styled.button`
   height: 40px;
   display: flex;
